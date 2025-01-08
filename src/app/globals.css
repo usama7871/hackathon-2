@@ -1,0 +1,265 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Properties */
+:root {
+  --primary: #B88E2F;
+  --primary-dark: #A07B2A;
+  --text-primary: #333333;
+  --background: #FFFFFF;
+  --accent: #E89F71;
+}
+
+/* Base Styles */
+@layer base {
+  body {
+    @apply antialiased text-[#333333] bg-[#FAFAFA];
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans tracking-tight;
+  }
+}
+
+/* Reusable Components */
+@layer components {
+  .container {
+    @apply max-w-[1440px] mx-auto px-4;
+  }
+
+  .btn-primary {
+    @apply bg-[--primary] text-white px-6 py-3 rounded-lg
+    transition-all duration-300 hover:bg-[--primary-dark]
+    hover:shadow-lg hover:scale-[1.02] active:scale-[0.98];
+  }
+
+  .card {
+    @apply bg-white rounded-2xl overflow-hidden
+    transition-all duration-300 hover:shadow-xl
+    hover:translate-y-[-4px];
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-lg border border-gray-200
+    focus:ring-2 focus:ring-[--primary] focus:border-transparent
+    transition-all duration-300;
+  }
+}
+
+/* Advanced Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Animation Utilities */
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s ease-in-out infinite;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.6s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out forwards;
+}
+
+/* Enhanced Navigation */
+.navbar {
+  @apply sticky top-0 z-50 backdrop-blur-lg bg-white/80
+  border-b border-gray-100 transition-all duration-300;
+}
+
+.navbar.scrolled {
+  @apply shadow-lg bg-white/90;
+}
+
+.nav-link {
+  @apply relative px-4 py-2 text-gray-600 hover:text-[--primary]
+  after:content-[''] after:absolute after:bottom-0 after:left-0
+  after:w-0 after:h-0.5 after:bg-[--primary]
+  after:transition-all after:duration-300
+  hover:after:w-full;
+}
+
+/* Hero Section Enhancements */
+.hero-section {
+  @apply relative overflow-hidden;
+}
+
+.hero-content {
+  @apply relative z-10 animate-slide-up;
+}
+
+.hero-image {
+  @apply absolute inset-0 w-full h-full object-cover
+  transition-transform duration-700 hover:scale-105;
+}
+
+/* Card Hover Effects */
+.hover-card {
+  @apply relative overflow-hidden rounded-2xl
+  transition-all duration-300
+  hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)];
+}
+
+.hover-card::after {
+  @apply content-[''] absolute inset-0
+  bg-gradient-to-t from-black/50 to-transparent
+  opacity-0 transition-opacity duration-300;
+}
+
+.hover-card:hover::after {
+  @apply opacity-100;
+}
+
+/* Text Gradients */
+.text-gradient {
+  @apply bg-gradient-to-r from-[--primary] to-[--primary-dark]
+  bg-clip-text text-transparent;
+}
+
+.text-gradient-accent {
+  @apply bg-gradient-to-r from-[--primary] via-[--accent] to-[--primary-dark]
+  bg-clip-text text-transparent;
+}
+
+/* Glassmorphism Effects */
+.glass {
+  @apply bg-white/70 backdrop-blur-lg
+  border border-white/20 shadow-lg;
+}
+
+.glass-dark {
+  @apply bg-black/70 backdrop-blur-lg
+  border border-white/10 shadow-lg;
+}
+
+/* Loading Animations */
+.loading-skeleton {
+  @apply animate-pulse bg-gray-200 rounded;
+}
+
+.loading-wave {
+  @apply relative overflow-hidden bg-gray-100
+  after:absolute after:inset-0
+  after:translate-x-[-100%]
+  after:bg-gradient-to-r
+  after:from-transparent after:via-white/20 after:to-transparent
+  after:animate-[wave_1.5s_infinite];
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .container {
+    @apply px-6;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    @apply px-4;
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  @apply w-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-[--primary] rounded-full
+  hover:bg-[--primary-dark] transition-colors;
+}
+
+/* Utility Animations */
+.transition-all-300 {
+  @apply transition-all duration-300;
+}
+
+.hover-lift {
+  @apply transition-transform duration-300 hover:-translate-y-1;
+}
+
+.hover-scale {
+  @apply transition-transform duration-300 hover:scale-[1.02];
+}
+
+/* Image Effects */
+.image-hover-zoom {
+  @apply transition-transform duration-700 hover:scale-110;
+}
+
+.image-hover-blur {
+  @apply transition-all duration-300 hover:blur-sm;
+}
+
+/* Interactive Elements */
+.interactive-bounce {
+  @apply transition-transform active:scale-95;
+}
+
+.interactive-shine {
+  @apply relative overflow-hidden
+  after:absolute after:inset-0
+  after:translate-x-[-100%]
+  after:bg-gradient-to-r
+  after:from-transparent after:via-white/20 after:to-transparent
+  hover:after:translate-x-[100%]
+  after:transition-transform after:duration-1000;
+}
+
+/* Add these safeguards */
+@layer utilities {
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+  
+  .safe-top {
+    padding-top: env(safe-area-inset-top, 0);
+  }
+}
+
+/* Ensure z-index stacking works correctly */
+.z-stack {
+  isolation: isolate;
+}
+
+/* Prevent layout shifts */
+@media (prefers-reduced-motion: no-preference) {
+  .animate-safe {
+    @apply transition-all duration-300;
+  }
+}
+
+/* Fix potential overflow issues */
+.overflow-fix {
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
