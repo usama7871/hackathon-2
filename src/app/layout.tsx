@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react"
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
@@ -32,7 +33,9 @@ export default function RootLayout({
             <CompareProvider>
               <div className="flex flex-col min-h-screen bg-white">
                 <Header />
-                <main className="flex-grow pt-[100px]">{children}</main>
+                <main className="flex-grow pt-[100px]">{children}
+                  <Analytics/>
+                </main>
                 <Footer />
                 <CartSidebar />
                 <QuickOrder />
