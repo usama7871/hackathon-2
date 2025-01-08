@@ -1,11 +1,9 @@
-
 # 🛋️ Funiro - Modern Furniture E-commerce
 
 <div align="center">
-  <img src="/Logo.png" alt="Funiro Logo" width="200"/>
+  <img src="/public/Logo.png" alt="Funiro Logo" width="200"/>
   <p>A modern, responsive e-commerce platform for luxury furniture.</p>
 </div>
-
 ---
 
 ## ✨ Features
