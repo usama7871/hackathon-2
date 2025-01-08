@@ -1,4 +1,4 @@
-```markdown
+
 # 🛋️ Funiro - Modern Furniture E-commerce
 
 <div align="center">
