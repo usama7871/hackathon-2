@@ -1,12 +1,10 @@
 "use client";
 
-import { useState } from "react";
 import { X, Plus, Share2, ShoppingCart, ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useCompare } from "@/context/CompareContext";
 import { useCart } from "@/context/CartContext";
 import { formatPrice } from "@/utils/formatPrice";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 interface ProductComparisonProps {
@@ -16,7 +14,6 @@ interface ProductComparisonProps {
 export default function ProductComparison({ isFullPage = false }: ProductComparisonProps) {
   const { items: compareItems, removeFromCompare, clearCompare } = useCompare();
   const { addToCart } = useCart();
-  const router = useRouter();
 
   const features = [
     "Price",
@@ -30,7 +27,7 @@ export default function ProductComparison({ isFullPage = false }: ProductCompari
     "Stock",
     "Warranty",
     "Colors",
-    "Highlights"
+    "Highlights",
   ];
 
   const getFeatureValue = (product: any, feature: string) => {
@@ -50,10 +47,12 @@ export default function ProductComparison({ isFullPage = false }: ProductCompari
       case "Weight":
         return product.features?.specifications?.weight || "N/A";
       case "Rating":
-        return product.features?.rating ? `${product.features.rating} ★ (${product.features.reviewCount} reviews)` : "N/A";
+        return product.features?.rating
+          ? `${product.features.rating} ★ (${product.features.reviewCount} reviews)`
+          : "N/A";
       case "Stock":
-        return product.features?.specifications?.inStock 
-          ? `In Stock (${product.features.specifications.stockCount || 0} units)` 
+        return product.features?.specifications?.inStock
+          ? `In Stock (${product.features.specifications.stockCount || 0} units)`
           : "Out of stock";
       case "Warranty":
         return product.features?.specifications?.warranty || "N/A";
@@ -67,18 +66,22 @@ export default function ProductComparison({ isFullPage = false }: ProductCompari
   };
 
   return (
-    <div className={`bg-white rounded-2xl shadow-xl ${isFullPage ? 'w-full' : 'w-full max-w-[1000px]'}`}>
+    <div
+      className={`rounded-2xl shadow-xl overflow-hidden ${
+        isFullPage ? "w-full" : "w-full max-w-[1000px]"
+      } bg-gradient-to-br from-[#0F172A] to-[#1E293B] text-white`}
+    >
       {/* Header */}
-      <div className="flex justify-between items-center p-6 border-b">
+      <div className="flex justify-between items-center p-6 border-b border-glow">
         <div>
-          <h2 className="text-2xl font-bold text-gray-800">Compare Products</h2>
-          <p className="text-gray-600">Compare features and specifications of up to 4 products</p>
+          <h2 className="text-3xl font-bold text-neon">Compare Products</h2>
+          <p className="text-gray-400">Compare features and specifications of up to 4 products</p>
         </div>
         <div className="flex items-center gap-4">
           {compareItems.length > 0 && (
             <button
               onClick={clearCompare}
-              className="text-red-600 hover:text-red-700 font-medium transition-colors"
+              className="text-red-500 hover:text-red-600 font-medium transition-all"
             >
               Clear All
             </button>
@@ -89,7 +92,7 @@ export default function ProductComparison({ isFullPage = false }: ProductCompari
       {/* Empty State */}
       {compareItems.length === 0 ? (
         <div className="p-8 text-center">
-          <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+          <div className="w-24 h-24 bg-glow rounded-full flex items-center justify-center mx-auto mb-4">
             <Image
               src="/empty-compare.png"
               alt="Empty comparison"
@@ -98,11 +101,13 @@ export default function ProductComparison({ isFullPage = false }: ProductCompari
               className="opacity-50"
             />
           </div>
-          <h3 className="text-xl font-semibold mb-2 text-gray-800">No products to compare</h3>
-          <p className="text-gray-500 mb-6">Browse our collection and add products to compare their features</p>
+          <h3 className="text-xl font-semibold mb-2 text-neon">No products to compare</h3>
+          <p className="text-gray-400 mb-6">
+            Browse our collection and add products to compare their features
+          </p>
           <Link
             href="/shop"
-            className="inline-flex items-center px-6 py-3 bg-[#B88E2F] text-white rounded-lg hover:bg-[#9A7B2C] transition-colors gap-2"
+            className="inline-flex items-center px-6 py-3 bg-neon hover:bg-neon-dark rounded-lg gap-2 transition-all"
           >
             Browse Products
             <ArrowRight className="w-4 h-4" />
@@ -110,46 +115,44 @@ export default function ProductComparison({ isFullPage = false }: ProductCompari
         </div>
       ) : (
         <div className="p-6 overflow-x-auto">
-          <table className="w-full min-w-[800px]">
+          <table className="w-full min-w-[800px] table-fixed">
             <thead>
               <tr>
-                <th className="text-left p-3 bg-gray-50 rounded-tl-lg w-48 sticky left-0 z-10">Features</th>
+                <th className="p-3 text-left bg-glow rounded-tl-lg sticky left-0 z-10">Features</th>
                 {compareItems.map((product) => (
-                  <th key={product.id} className="p-3 bg-gray-50">
+                  <th key={product.id} className="p-3 bg-glow">
                     <div className="relative group">
                       <button
                         onClick={() => removeFromCompare(product)}
-                        className="absolute -top-2 -right-2 p-1.5 bg-white text-red-600 rounded-full 
-                          hover:bg-red-50 shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-200"
+                        className="absolute -top-2 -right-2 p-1.5 bg-red-500 text-white rounded-full hover:scale-110 transition-transform"
                       >
                         <X className="w-4 h-4" />
                       </button>
-                      <Link href={`/shop/${product.id}`} className="block group">
-                        <div className="relative w-40 h-40 mx-auto mb-4 rounded-lg overflow-hidden">
+                      <Link href={`/shop/${product.id}`} className="block">
+                        <div className="relative w-40 h-40 mx-auto mb-4 rounded-lg overflow-hidden shadow-neon">
                           <Image
                             src={product.image}
                             alt={product.name}
                             fill
-                            className="object-cover transition-transform duration-300 group-hover:scale-110"
+                            className="object-cover transition-transform duration-300 hover:scale-110"
                           />
                         </div>
-                        <h3 className="font-medium text-center mb-2 group-hover:text-[#B88E2F] transition-colors">
+                        <h3 className="font-medium text-center mb-2 text-neon transition-all">
                           {product.name}
                         </h3>
                       </Link>
                       <div className="flex justify-center gap-2">
                         <button
-                          onClick={() => {
+                          onClick={() =>
                             addToCart({
                               id: product.id,
                               name: product.name,
                               price: product.salePrice || product.price,
                               image: product.image,
-                              quantity: 1
-                            });
-                          }}
-                          className="px-4 py-2 bg-[#B88E2F] text-white rounded-lg hover:bg-[#9A7B2C] 
-                            transition-colors flex items-center gap-2"
+                              quantity: 1,
+                            })
+                          }
+                          className="px-4 py-2 bg-neon hover:bg-neon-dark rounded-lg transition-all flex items-center gap-2"
                         >
                           <ShoppingCart className="w-4 h-4" />
                           Add to Cart
@@ -158,11 +161,9 @@ export default function ProductComparison({ isFullPage = false }: ProductCompari
                           onClick={() => {
                             const url = `${window.location.origin}/shop/${product.id}`;
                             navigator.clipboard.writeText(url);
-                            alert('Product link copied to clipboard!');
+                            alert("Product link copied to clipboard!");
                           }}
-                          className="p-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 
-                            transition-colors"
-                          title="Share Product"
+                          className="p-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition-colors"
                         >
                           <Share2 className="w-4 h-4" />
                         </button>
@@ -170,54 +171,17 @@ export default function ProductComparison({ isFullPage = false }: ProductCompari
                     </div>
                   </th>
                 ))}
-                {compareItems.length < 4 && (
-                  <th className="p-3 bg-gray-50 rounded-tr-lg">
-                    <Link
-                      href="/shop"
-                      className="flex flex-col items-center justify-center w-full h-[280px] border-2 
-                        border-dashed border-gray-300 rounded-lg hover:border-[#B88E2F] hover:bg-[#B88E2F]/5 
-                        transition-colors group"
-                    >
-                      <Plus className="w-8 h-8 text-gray-400 group-hover:text-[#B88E2F] transition-colors" />
-                      <span className="mt-2 text-gray-600 group-hover:text-[#B88E2F] transition-colors">
-                        Add Product
-                      </span>
-                    </Link>
-                  </th>
-                )}
               </tr>
             </thead>
             <tbody>
-              {features.map((feature, index) => (
-                <tr key={feature} className={index % 2 === 0 ? 'bg-gray-50/50' : ''}>
-                  <td className="p-4 font-medium text-gray-700 sticky left-0 z-10 bg-white">{feature}</td>
+              {features.map((feature) => (
+                <tr key={feature} className="odd:bg-[#1E293B]">
+                  <td className="p-4 text-neon">{feature}</td>
                   {compareItems.map((product) => (
                     <td key={`${product.id}-${feature}`} className="p-4">
-                      {feature === "Highlights" ? (
-                        <ul className="list-disc list-inside space-y-1 text-sm text-gray-600">
-                          {product.features?.highlights?.map((highlight, idx) => (
-                            <li key={idx}>{highlight}</li>
-                          ))}
-                        </ul>
-                      ) : feature === "Colors" ? (
-                        <div className="flex flex-wrap gap-2 justify-center">
-                          {product.features?.specifications?.color?.map((color) => (
-                            <div
-                              key={color}
-                              className="w-6 h-6 rounded-full border border-gray-200 shadow-sm"
-                              style={{ backgroundColor: color.toLowerCase() }}
-                              title={color}
-                            />
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="text-center text-gray-600">
-                          {getFeatureValue(product, feature)}
-                        </div>
-                      )}
+                      {getFeatureValue(product, feature)}
                     </td>
                   ))}
-                  {compareItems.length < 4 && <td className="p-4" />}
                 </tr>
               ))}
             </tbody>

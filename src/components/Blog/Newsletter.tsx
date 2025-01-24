@@ -1,3 +1,4 @@
+//src/components/Blog/Newsletter.tsx
 "use client";
 import { useState, useEffect } from 'react';
 

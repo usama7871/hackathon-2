@@ -1,10 +1,9 @@
-Here is the updated and corrected version of your `README.md` file:
 
 ```markdown
 # 🛋️ Funiro - Modern Furniture E-commerce
 
 <div align="center">
-  <img src="/public/Logo.png" alt="Funiro Logo" width="200"/>
+  <img src="/Logo.png" alt="Funiro Logo" width="200"/>
   <p>A modern, responsive e-commerce platform for luxury furniture.</p>
 </div>
 

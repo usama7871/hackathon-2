@@ -1,13 +1,12 @@
-// src/components/ProductDetails.tsx
 "use client";
 
 import React, { useState } from "react";
 import { Heart, ShoppingCart, Scale, Star, Share2 } from "lucide-react";
-import { useCart } from "@/context/CartContext";
-import { useWishlist } from "@/context/WishlistContext";
-import { useCompare } from "@/context/CompareContext";
-import { formatPrice } from "@/utils/formatPrice";
-import { ProductDetailsProps } from "@/types/product";
+import { useCart } from "../../context/CartContext";
+import { useWishlist } from "../../context/WishlistContext";
+import { useCompare } from "../../context/CompareContext";
+import { formatPrice } from "../../utils/formatPrice";
+import { ProductDetailsProps } from "../../types/product";
 
 const ProductDetails: React.FC<ProductDetailsProps> = ({
   id,
@@ -30,13 +29,17 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
   const { addToCart } = useCart();
   const { isInWishlist, toggleWishlist } = useWishlist();
   const { items: compareItems, addToCompare, removeFromCompare } = useCompare();
-  const [selectedColor, setSelectedColor] = useState(colors[0]);
+  const [selectedColor, setSelectedColor] = useState(colors.length > 0 ? colors[0] : null);
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(imageUrl);
 
   const isInCompare = compareItems.some(item => item.id === id);
 
   const handleAddToCart = () => {
+    if (!selectedColor) {
+      alert("Please select a color.");
+      return;
+    }
     addToCart({
       id,
       name,
@@ -93,7 +96,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
           {/* Thumbnail Images */}
           {images && images.length > 0 && (
             <div className="flex gap-2 overflow-x-auto pb-2">
-              {images.map((img, index) => (
+              {images.map((img: string, index: number) => (
                 <button
                   key={index}
                   onClick={() => setSelectedImage(img)}
@@ -215,7 +218,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
           <div>
             <h3 className="text-lg font-semibold">Select Color</h3>
             <div className="flex mt-2 space-x-3">
-              {features.specifications.color.map((color) => (
+              {features.specifications.color.map((color: string) => (
                 <button
                   key={color}
                   className={`w-10 h-10 rounded-full border-2 transition-all duration-200 ${

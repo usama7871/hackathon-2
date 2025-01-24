@@ -63,25 +63,26 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-lg shadow-lg overflow-hidden w-full max-w-2xl">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50">
+      <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 rounded-lg shadow-2xl overflow-hidden w-full max-w-2xl relative border border-gray-600">
         {/* Header */}
-        <div className="flex justify-between items-center p-4 border-b">
-          <h2 className="text-xl font-semibold text-gray-800">{product.name}</h2>
+        <div className="flex justify-between items-center p-4 border-b border-gray-600 bg-gradient-to-r from-gray-800 to-gray-700">
+          <h2 className="text-xl font-semibold text-white tracking-wider">
+            {product.name}
+          </h2>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-          >
-            <X className="w-6 h-6 text-gray-600" />
+            className="p-2 hover:bg-gray-700/60 rounded-full transition-all text-white">
+            <X className="w-6 h-6" />
           </button>
         </div>
 
         {/* Content */}
-        <div className="p-4">
+        <div className="p-6">
           {/* Image with Zoom Controls */}
           <div
             ref={imageContainerRef}
-            className="relative w-full h-96 overflow-hidden rounded-lg mb-4"
+            className="relative w-full h-96 overflow-hidden rounded-lg mb-4 border border-gray-600 bg-gray-900"
             onMouseEnter={() => setLensVisible(true)}
             onMouseLeave={() => setLensVisible(false)}
             onMouseMove={handleMouseMove}
@@ -89,12 +90,12 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
             <img
               src={product.image}
               alt={product.name}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
             />
             {/* Zoom Lens */}
             {lensVisible && (
               <div
-                className="absolute w-[150px] h-[150px] bg-white rounded-full border-2 border-gray-300 pointer-events-none overflow-hidden"
+                className="absolute w-[150px] h-[150px] bg-gray-700/90 rounded-full border-2 border-gray-500 pointer-events-none overflow-hidden shadow-lg"
                 style={{
                   left: `${lensPosition.x}px`,
                   top: `${lensPosition.y}px`,
@@ -105,56 +106,60 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
               />
             )}
             {/* Zoom Controls */}
-            <div className="absolute bottom-2 right-2 flex gap-2 bg-white/80 p-1 rounded-lg shadow">
+            <div className="absolute bottom-4 right-4 flex gap-3 bg-gray-800/80 p-2 rounded-lg shadow-md">
               <button
                 onClick={handleZoomIn}
-                className="p-1 hover:bg-gray-100 rounded transition-colors"
+                className="p-2 hover:bg-gray-700/60 rounded-full transition-colors text-white"
                 title="Zoom In"
               >
-                <ZoomIn className="w-5 h-5 text-gray-700" />
+                <ZoomIn className="w-5 h-5" />
               </button>
               <button
                 onClick={handleZoomOut}
-                className="p-1 hover:bg-gray-100 rounded transition-colors"
+                className="p-2 hover:bg-gray-700/60 rounded-full transition-colors text-white"
                 title="Zoom Out"
               >
-                <ZoomOut className="w-5 h-5 text-gray-700" />
+                <ZoomOut className="w-5 h-5" />
               </button>
             </div>
           </div>
 
           {/* Description */}
-          <p className="text-gray-600 mb-4">{product.description}</p>
+          <p className="text-gray-400 mb-6 leading-relaxed">
+            {product.description}
+          </p>
 
           {/* Price and Quantity */}
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-6">
             <div>
               {product.salePrice && product.salePrice < product.price ? (
                 <>
-                  <span className="text-red-600 font-bold text-xl">
+                  <span className="text-green-400 font-bold text-xl">
                     {formatPrice.toRupiah(product.salePrice)}
                   </span>
-                  <span className="text-gray-400 text-sm line-through ml-2">
+                  <span className="text-gray-500 text-sm line-through ml-2">
                     {formatPrice.toRupiah(product.price)}
                   </span>
                 </>
               ) : (
-                <span className="font-bold text-xl">
+                <span className="font-bold text-xl text-white">
                   {formatPrice.toRupiah(product.price)}
                 </span>
               )}
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
               <button
                 onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                className="px-3 py-1 border rounded hover:bg-gray-100 transition-colors"
+                className="px-3 py-1 border border-gray-600 text-white rounded-lg hover:bg-gray-700/60 transition-colors"
               >
                 -
               </button>
-              <span className="w-8 text-center">{quantity}</span>
+              <span className="w-10 text-center text-white font-semibold">
+                {quantity}
+              </span>
               <button
                 onClick={() => setQuantity((q) => q + 1)}
-                className="px-3 py-1 border rounded hover:bg-gray-100 transition-colors"
+                className="px-3 py-1 border border-gray-600 text-white rounded-lg hover:bg-gray-700/60 transition-colors"
               >
                 +
               </button>
@@ -164,7 +169,7 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
           {/* Add to Cart Button */}
           <button
             onClick={handleAddToCart}
-            className="w-full bg-[#B88E2F] text-white py-2 rounded-lg hover:bg-[#9A7B2C] transition-colors"
+            className="w-full py-3 bg-gradient-to-r from-yellow-500 to-yellow-600 text-gray-900 font-bold rounded-lg hover:from-yellow-600 hover:to-yellow-700 shadow-md hover:shadow-xl transition-all duration-300"
           >
             Add to Cart
           </button>

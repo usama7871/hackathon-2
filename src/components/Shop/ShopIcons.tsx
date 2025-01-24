@@ -1,5 +1,5 @@
+import { useEffect, useState } from 'react';
 import { Trophy, CheckCircle, Truck, Headphones } from 'lucide-react';
-
 const features = [
   {
     icon: Trophy,
@@ -29,7 +29,7 @@ const features = [
 
 export default function ShopIcons() {
   return (
-    <div className="bg-[#F9F1E7] py-16">
+    <div className="bg-gradient-to-r from-[#F9F1E7] to-[#E2CFCF] py-16">
       <div className="max-w-7xl mx-auto px-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {features.map((feature, index) => {
@@ -37,15 +37,15 @@ export default function ShopIcons() {
             return (
               <div
                 key={index}
-                className="flex flex-col items-center text-center p-6 rounded-lg bg-white hover:shadow-lg transition-shadow group"
+                className="flex flex-col items-center text-center p-6 rounded-lg bg-white hover:shadow-2xl transition-shadow group"
               >
                 <div className="mb-4 p-3 rounded-full bg-[#F9F1E7] group-hover:bg-[#B88E2F] transition-colors">
                   <Icon 
-                    className="w-8 h-8 text-[#B88E2F] group-hover:text-white transition-colors" 
+                    className="w-10 h-10 text-[#B88E2F] group-hover:text-white transition-colors" 
                   />
                 </div>
                 <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.description}</p>
+                <p className="text-gray-700">{feature.description}</p>
               </div>
             )
           })}

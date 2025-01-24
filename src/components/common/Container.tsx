@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge';
 interface ContainerProps {
   children: ReactNode;
   className?: string;
-  as?: keyof JSX.IntrinsicElements;
+  as?: keyof JSX.IntrinsicElements | React.ElementType;
   fluid?: boolean;
 }
 
@@ -13,9 +13,9 @@ export default function Container({
   className = '',
   as: Component = 'div',
   fluid = false,
-}: ContainerProps) {
+}: ContainerProps): JSX.Element {
   return (
-    <Component
+    <Component 
       className={twMerge(
         'mx-auto w-full',
         !fluid && 'max-w-[1440px] px-4 md:px-6 lg:px-8',
@@ -25,4 +25,4 @@ export default function Container({
       {children}
     </Component>
   );
-} 
+}

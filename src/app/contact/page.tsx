@@ -1,7 +1,8 @@
 "use client";
 import dynamic from 'next/dynamic';
-import { Suspense } from 'react';
+import { Suspense, useContext } from 'react';
 import { Loader2 } from "lucide-react";
+import { useUser } from '@clerk/nextjs'; // Import useUser from Clerk
 
 // Loading component
 const LoadingSpinner = () => (
@@ -11,31 +12,33 @@ const LoadingSpinner = () => (
 );
 
 // Dynamic imports with loading states
-const ContactHero = dynamic(() => import("@/components/Contact/ContactHero"), {
+const ContactHero = dynamic(() => import('../../components/Contact/ContactHero'), {
   loading: () => <LoadingSpinner />
 });
 
-const ContactForm = dynamic(() => import("@/components/Contact/ContactForm"), {
+const ContactForm = dynamic(() => import('../../components/Contact/ContactForm'), {
   loading: () => <LoadingSpinner />
 });
 
-const ContactInfo = dynamic(() => import("@/components/Contact/ContactInfo"), {
+const ContactInfo = dynamic(() => import('../../components/Contact/ContactInfo'), {
   loading: () => <LoadingSpinner />
 });
 
-const MapSection = dynamic(() => import("@/components/Contact/MapSection"), {
+const MapSection = dynamic(() => import('../../components/Contact/MapSection'), {
   loading: () => <LoadingSpinner />
 });
 
-const TestimonialCarousel = dynamic(() => import("@/components/Home/TestimonialCarousel"), {
+const TestimonialCarousel = dynamic(() => import('../../components/Home/TestimonialCarousel'), {
   loading: () => <LoadingSpinner />
 });
 
-const NewsletterSignup = dynamic(() => import("@/components/common/NewsletterSignup"), {
+const NewsletterSignup = dynamic(() => import('../../components/common/NewsletterSignup'), {
   loading: () => <LoadingSpinner />
 });
 
 export default function ContactPage() {
+  const { user } = useUser(); // Get user from Clerk
+
   return (
     <main className="w-full">
       <Suspense fallback={<LoadingSpinner />}>
@@ -53,19 +56,25 @@ export default function ContactPage() {
           </div>
         </div>
 
-        {/* Contact Form Section */}
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-white">
-          <div className="max-w-3xl mx-auto">
-            <ContactForm />
-          </div>
-        </div>
+        {user ? (
+          <>
+            {/* Contact Form Section */}
+            <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-white">
+              <div className="max-w-3xl mx-auto">
+                <ContactForm />
+              </div>
+            </div>
 
-        {/* Map Section */}
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-            <MapSection />
-          </div>
-        </div>
+            {/* Map Section */}
+            <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
+              <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+                <MapSection />
+              </div>
+            </div>
+          </>
+        ) : (
+          <div>Please log in to access the contact form.</div>
+        )}
 
         {/* Testimonials Section */}
         <div className="w-full bg-white">

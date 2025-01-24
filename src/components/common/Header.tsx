@@ -4,6 +4,7 @@ import Image from "next/image";
 import Logo from "@/Pictures/Logo.png";
 import Link from "next/link";
 import { MdPersonOutline } from "react-icons/md";
+import { useUser } from '@clerk/nextjs'; // Import useUser from Clerk
 import { CiSearch } from "react-icons/ci";
 import { GoHeart } from "react-icons/go";
 import { AiOutlineShoppingCart, AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
@@ -18,6 +19,8 @@ const navLinks = [
   { href: "/shop", label: "Shop" },
   { href: "/blog", label: "Blog" },
   { href: "/contact", label: "Contact" },
+  { href: "/sign-in", label: "Sign In" },
+  { href: "/sign-up", label: "Sign Up" },
 ];
 
 export default function Header() {
@@ -26,6 +29,7 @@ export default function Header() {
   const [mounted, setMounted] = useState(false);
   const { items: compareItems } = useCompare();
   const { wishlistItems } = useWishlist();
+  const { user } = useUser(); // Get user from Clerk
 
   useEffect(() => {
     setMounted(true);
@@ -36,7 +40,7 @@ export default function Header() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 w-full h-[100px] bg-gradient-to-r from-white to-gray-100 shadow-md z-50">
+    <header className="fixed top-0 left-0 right-0 w-full h-[100px] bg-gradient-to-r from-blue-500 to-purple-600 shadow-md z-50 transition-all duration-500">
       <div className="container mx-auto max-w-[1440px] px-4 flex items-center justify-between h-full">
         {/* Logo */}
         <Link href="/">
@@ -55,7 +59,7 @@ export default function Header() {
             <Link
               key={link.label}
               href={link.href}
-              className="text-gray-700 font-medium hover:text-[#B88E2F] transition-colors duration-300 hover:underline underline-offset-4"
+              className="text-white font-medium hover:text-yellow-300 transition-colors duration-300 hover:underline underline-offset-4"
             >
               {link.label}
             </Link>
@@ -64,12 +68,18 @@ export default function Header() {
 
         {/* Icons and Menu */}
         <div className="flex items-center space-x-6">
-          <button
-            className="text-gray-600 text-2xl hover:text-[#2cffce] transition-transform duration-200 hover:scale-110"
-            aria-label="User Account"
-          >
-            <MdPersonOutline />
-          </button>
+          <div className="relative">
+            <button
+              className="text-white text-2xl hover:text-[#2cffce] transition-transform duration-200 hover:scale-110"
+              aria-label="User Account"
+            >
+              {user ? (
+                <img src={user.imageUrl} alt="User Profile" className="w-8 h-8 rounded-full" />
+              ) : (
+                <MdPersonOutline />
+              )}
+            </button>
+          </div>
           <button
             className="text-gray-600 text-2xl hover:text-[#24bde0] transition-transform duration-200 hover:scale-110"
             aria-label="Search"
@@ -78,7 +88,7 @@ export default function Header() {
           </button>
           <Link
             href="/wishlist"
-            className="relative text-gray-600 text-2xl hover:text-[#ff1b1b] transition-transform duration-200 hover:scale-110"
+            className="relative text-white text-2xl hover:text-[#ff1b1b] transition-transform duration-200 hover:scale-110"
             aria-label="Wishlist"
           >
             <GoHeart />
@@ -100,18 +110,6 @@ export default function Header() {
               </span>
             )}
           </button>
-          <Link
-            href="/compare"
-            className="relative text-gray-600 text-2xl hover:text-[#B88E2F] transition-transform duration-200 hover:scale-110"
-            aria-label="Compare Products"
-          >
-            <Scale className="w-6 h-6" />
-            {compareItems.length > 0 && (
-              <span className="absolute -top-2 -right-2 bg-[#B88E2F] text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                {compareItems.length}
-              </span>
-            )}
-          </Link>
           <button className="lg:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
             {isMobileMenuOpen ? (
               <AiOutlineClose className="w-6 h-6 text-gray-700" />

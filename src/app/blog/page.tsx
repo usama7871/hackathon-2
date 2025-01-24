@@ -2,6 +2,7 @@
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 import { Loader2 } from "lucide-react";
+import { useUser } from '@clerk/nextjs'; // Import useUser from Clerk
 
 // Loading component
 const LoadingSpinner = () => (
@@ -11,28 +12,36 @@ const LoadingSpinner = () => (
 );
 
 // Dynamic imports with loading states
-const BlogHero = dynamic(() => import("@/components/Blog/BlogHero"), {
+const BlogHero = dynamic(() => import('../../components/Blog/BlogHero'), {
   loading: () => <LoadingSpinner />
 });
 
-const BlogGrid = dynamic(() => import("@/components/Blog/BlogGrid"), {
+const BlogGrid = dynamic(() => import('../../components/Blog/BlogGrid'), {
   loading: () => <LoadingSpinner />
 });
 
-const NewsletterSignup = dynamic(() => import("@/components/common/NewsletterSignup"), {
+const NewsletterSignup = dynamic(() => import('../../components/common/NewsletterSignup'), {
   loading: () => <LoadingSpinner />
 });
 
 export default function BlogPage() {
+  const { user } = useUser(); // Get user from Clerk
+
   return (
     <main className="w-full">
       <Suspense fallback={<LoadingSpinner />}>
         <BlogHero />
         <div className="section-spacing" />
-        <BlogGrid />
-        <div className="section-spacing" />
-        <NewsletterSignup />
+        {user ? (
+          <>
+            <BlogGrid />
+            <div className="section-spacing" />
+            <NewsletterSignup />
+          </>
+        ) : (
+          <div>Please log in to see the content.</div>
+        )}
       </Suspense>
     </main>
   );
-} 
+}

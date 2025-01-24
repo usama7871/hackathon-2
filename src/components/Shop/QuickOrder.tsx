@@ -1,18 +1,73 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Search, ShoppingCart, X, Loader2 } from "lucide-react";
-import { useCart } from "@/context/CartContext";
-import { products } from "@/data/products";
-import { formatPrice } from "@/utils/formatPrice";
+import { useCart } from "../../context/CartContext"; // Corrected import path
+import { formatPrice } from "../../utils/formatPrice"; // Corrected import path
 import Image from "next/image";
+import { client } from "../../sanity/lib/sanity"; // Corrected import path
+
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  salePrice?: number;
+  description: string;
+  image: string;
+}
 
 export default function QuickOrder() {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(false); // Simulate loading state
   const { addToCart } = useCart();
+  const [products, setProducts] = useState<Product[]>([]); // State for products
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const query = `*[_type == "product"] {
+        _id,
+        name,
+        price,
+        salePrice,
+        description,
+        "image": image.asset->url,
+        "images": images[].asset->url,
+        features {
+          highlights,
+          specifications {
+            dimensions,
+            weight,
+            material,
+            color,
+            warranty,
+            inStock,
+            stockCount
+          }
+        }
+      }`;
+
+      try {
+        const data = await client.fetch(query);
+        const transformedData = data.map((item: any) => ({
+          id: item._id,
+          name: item.name,
+          price: item.price,
+          salePrice: item.salePrice,
+          description: item.description,
+          image: item.image,
+          images: item.images || [],
+          features: item.features,
+        }));
+        setProducts(transformedData);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   // Simulate search with a delay
   const filteredProducts = products
@@ -21,9 +76,9 @@ export default function QuickOrder() {
         product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         product.description.toLowerCase().includes(searchTerm.toLowerCase())
     )
-    .slice(0, 10);//no of products to list 
+    .slice(0, 10); // Number of products to list 
 
-  const handleQuickAdd = (product: any) => {
+  const handleQuickAdd = (product: Product) => {
     addToCart({
       id: product.id,
       name: product.name,

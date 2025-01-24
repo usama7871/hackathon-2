@@ -1,4 +1,5 @@
-import { Analytics } from "@vercel/analytics/react"
+import { ClerkProvider } from '@clerk/nextjs'; // Import ClerkProvider
+import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
@@ -28,23 +29,24 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <CartProvider>
-          <WishlistProvider>
-            <CompareProvider>
-              <div className="flex flex-col min-h-screen bg-white">
-                <Header />
-                <main className="flex-grow pt-[100px]">{children}
-                  <Analytics/>
-                </main>
-                <Footer />
-                <CartSidebar />
-                <QuickOrder />
-              </div>
-            </CompareProvider>
-          </WishlistProvider>
-        </CartProvider>
+        <ClerkProvider>
+          <CartProvider>
+            <WishlistProvider>
+              <CompareProvider>
+                <div className="flex flex-col min-h-screen bg-white">
+                  <Header />
+                  <main className="flex-grow pt-[100px]">{children}
+                    <Analytics/>
+                  </main>
+                  <Footer />
+                  <CartSidebar />
+                  <QuickOrder />
+                </div>
+              </CompareProvider>
+            </WishlistProvider>
+          </CartProvider>
+        </ClerkProvider>
       </body>
     </html>
   );
 }
-    

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="w-full bg-gradient-to-br from-gray-100 to-gray-200 pt-10 pb-6">
+    <footer className="w-full bg-gradient-to-br from-[#B88E2F] to-[#E2CFCF] pt-10 pb-6">
       <div className="container mx-auto max-w-[1440px] px-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* About Section */}
@@ -80,7 +80,6 @@ export default function Footer() {
               className="text-gray-600 hover:text-blue-500 transition duration-200"
               aria-label="Facebook"
             >
-              {/* Add your social icons */}
               Facebook
             </a>
             <a

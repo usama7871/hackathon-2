@@ -1,14 +1,13 @@
-// src/components/ProductCard.tsx
 "use client";
 import { Heart, Share2, Scale, Eye } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useWishlist } from "@/context/WishlistContext";
-import { useCompare } from "@/context/CompareContext";
+import { useWishlist } from "../../context/WishlistContext"; // Corrected import path
+import { useCompare } from "../../context/CompareContext"; // Corrected import path
 import QuickView from "./QuickView";
-import { formatPrice } from "@/utils/formatPrice";
-import Image from 'next/image';
-import { Product } from "@/types/product";
+import { formatPrice } from "../../utils/formatPrice"; // Corrected import path
+import Image from "next/image";
+import { Product } from "../../types/product"; // Corrected import path
 
 // Define a new interface for ProductCard
 interface ProductCardProps extends Product {
@@ -239,7 +238,7 @@ export default function ProductCard({
                 <span className="hidden sm:inline">Share</span>
               </button>
             </div>
-          )}
+          )}a
         </div>
       </div>
 

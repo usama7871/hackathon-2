@@ -1,6 +1,10 @@
-//src/components/common/HeroLayout.tsx
+// src/components/common/HeroLayout.tsx
 "use client";
+
 import { motion } from "framer-motion";
+import { IconContext } from "react-icons";
+import { FaRocket, FaStar } from "react-icons/fa";
+import { Parallax, ParallaxLayer } from "@react-spring/parallax";
 
 interface HeroLayoutProps {
   title: string;
@@ -10,54 +14,82 @@ interface HeroLayoutProps {
 
 export default function HeroLayout({ title, backgroundImage, breadcrumbs }: HeroLayoutProps) {
   return (
-    <div className="relative h-[400px] overflow-hidden">
-      {/* Background with Parallax */}
-      <motion.div
-        initial={{ scale: 1.2 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="absolute inset-0"
-      >
-        <div 
-          className="absolute inset-0 bg-cover bg-center transform hover:scale-105 transition-transform duration-3000"
-          style={{ backgroundImage: `url(${backgroundImage})` }}
+    <div className="relative h-[600px] overflow-hidden">
+      {/* Parallax Background */}
+      <Parallax pages={1.5} className="absolute inset-0">
+        <ParallaxLayer
+          offset={0}
+          speed={0.3}
+          style={{
+            backgroundImage: `url(${backgroundImage})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/50" />
+        <ParallaxLayer
+          offset={0}
+          speed={0.8}
+          style={{
+            background: "linear-gradient(135deg, rgba(0,0,0,0.6), transparent)",
+          }}
+        />
+      </Parallax>
+
+      {/* Decorative Stars */}
+      <motion.div
+        className="absolute inset-0"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
+      >
+        {Array.from({ length: 50 }).map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-[3px] h-[3px] bg-white rounded-full"
+            style={{
+              top: `${Math.random() * 100}%`,
+              left: `${Math.random() * 100}%`,
+            }}
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 1.5, delay: Math.random() * 1.5 }}
+          />
+        ))}
       </motion.div>
 
-      {/* Content */}
+      {/* Content Section */}
       <div className="relative h-full container mx-auto px-4">
         <div className="flex flex-col items-center justify-center h-full text-center">
+          {/* Title with 3D effect */}
           <motion.h1
-            initial={{ y: 30, opacity: 0 }}
+            initial={{ y: -30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-5xl md:text-6xl font-bold text-white mb-6 relative"
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="text-6xl md:text-7xl font-extrabold text-white tracking-widest mb-6"
+            style={{
+              textShadow: "0 2px 10px rgba(255, 255, 255, 0.5)",
+              letterSpacing: "2px",
+            }}
           >
-            {/* Decorative Line */}
-            <div className="absolute -left-10 top-1/2 w-8 h-1 bg-[--primary]" />
             {title}
-            <div className="absolute -right-10 top-1/2 w-8 h-1 bg-[--primary]" />
           </motion.h1>
 
-          {/* Breadcrumbs */}
+          {/* Animated Breadcrumbs */}
           <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="flex items-center space-x-3 text-white/90"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="flex items-center space-x-3 text-gray-300 text-lg"
           >
             {breadcrumbs.map((crumb, index) => (
               <div key={crumb.label} className="flex items-center">
-                {index > 0 && (
-                  <span className="mx-3 text-white/50">/</span>
-                )}
-                <span 
-                  className={`
-                    ${crumb.isActive 
-                      ? 'text-[--primary] font-semibold' 
-                      : 'hover:text-[--primary] transition-colors'}
-                  `}
+                {index > 0 && <span className="mx-3 text-gray-500">/</span>}
+                <span
+                  className={`${
+                    crumb.isActive
+                      ? "text-[--primary] font-bold"
+                      : "hover:text-[--primary] transition-colors duration-300"
+                  }`}
                 >
                   {crumb.label}
                 </span>
@@ -65,20 +97,33 @@ export default function HeroLayout({ title, backgroundImage, breadcrumbs }: Hero
             ))}
           </motion.div>
 
-          {/* Decorative Elements */}
+          {/* Futuristic Icon Animation */}
           <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="flex items-center justify-center mt-10 gap-6"
+          >
+            <IconContext.Provider value={{ color: "#B88E2F", size: "40px" }}>
+              <FaRocket className="animate-bounce" />
+              <FaStar className="animate-spin-slow" />
+            </IconContext.Provider>
+          </motion.div>
+
+          {/* Decorative Circular Ripples */}
+          <motion.div
+            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-40 h-40"
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="absolute bottom-0 left-1/2 -translate-x-1/2 w-20 h-20"
+            transition={{ duration: 1, ease: "easeInOut" }}
           >
             <div className="relative w-full h-full">
-              <div className="absolute inset-0 border-2 border-[--primary] rounded-full animate-ping" />
-              <div className="absolute inset-0 border-2 border-[--primary] rounded-full animate-pulse" />
+              <div className="absolute inset-0 border-4 border-[--primary] rounded-full animate-ping" />
+              <div className="absolute inset-0 border-4 border-[--primary] rounded-full animate-pulse" />
             </div>
           </motion.div>
         </div>
       </div>
     </div>
   );
-} 
+}
