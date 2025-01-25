@@ -71,7 +71,7 @@ export default function BlogPost() {
   const [mounted, setMounted] = useState(false);
   const [showShareTooltip, setShowShareTooltip] = useState(false);
   const params = useParams();
-  const { slug } = params;
+  // const { slug } = params;
 
   useEffect(() => {
     setMounted(true);
