@@ -19,13 +19,13 @@ export default function CartSidebar() {
   } = useCart();
 
   const sidebarVariants = {
-    closed: { x: "100%", opacity: 0 },
+    closed: { x: "-100%", opacity: 0 },
     open: { x: 0, opacity: 1 }
   };
 
   const itemVariants = {
-    hidden: { opacity: 0, x: 20 },
-    visible: { opacity: 1, x: 0 }
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
   };
 
   const handleViewCart = () => {
@@ -41,7 +41,7 @@ export default function CartSidebar() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm"
+        className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm"
         onClick={() => setIsCartOpen(false)}
       >
         <motion.div
@@ -49,116 +49,105 @@ export default function CartSidebar() {
           animate="open"
           exit="closed"
           variants={sidebarVariants}
-          transition={{ type: "spring", damping: 20 }}
-          className="fixed right-0 top-0 h-full w-[400px] bg-white shadow-2xl flex flex-col"
-          onClick={e => e.stopPropagation()}
+          transition={{ type: "spring", damping: 20, stiffness: 300 }}
+          className="fixed left-0 top-0 h-full w-[420px] bg-gradient-to-r from-[#0A1A2B] via-[#2E3C4E] to-[#1D2A39] text-white shadow-2xl rounded-r-lg flex flex-col overflow-hidden"
+          onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
-          <div className="border-b p-6 bg-gray-50">
-            <div className="flex justify-between items-center">
-              <div className="flex items-center gap-2">
-                <ShoppingBag className="w-6 h-6 text-[#B88E2F]" />
-                <h2 className="text-xl font-semibold text-gray-900">Shopping Cart</h2>
-              </div>
-              <button 
-                onClick={() => setIsCartOpen(false)}
-                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-              >
-                <X className="w-5 h-5 text-gray-600" />
-              </button>
+          <div className="p-6 border-b border-gray-700 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <ShoppingBag className="w-6 h-6 text-[#FFD700]" />
+              <h2 className="text-2xl font-semibold tracking-wider">Cart</h2>
             </div>
+            <button
+              onClick={() => setIsCartOpen(false)}
+              className="p-2 rounded-full hover:bg-gray-700 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
 
           {/* Cart Items */}
-          <div className="flex-1 overflow-y-auto max-h-[calc(100vh-200px)]">
+          <div className="flex-1 overflow-y-auto p-6 space-y-6">
             {items.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-full p-6 text-center">
-                <ShoppingBag className="w-16 h-16 text-gray-300 mb-4" />
-                <p className="text-gray-500">Your cart is empty</p>
+              <div className="flex flex-col items-center justify-center h-full text-center">
+                <ShoppingBag className="w-16 h-16 text-gray-600 mb-4" />
+                <p className="text-gray-400">Your cart is empty</p>
               </div>
             ) : (
-              <motion.div
-                initial="hidden"
-                animate="visible"
-                className="p-6 space-y-6"
-              >
-                {items.map((item, index) => (
-                  <motion.div
-                    key={item.id}
-                    variants={itemVariants}
-                    transition={{ delay: index * 0.1 }}
-                    className="flex gap-4 pb-6 border-b last:border-b-0"
-                  >
-                    <div className="relative w-20 h-20 rounded-md overflow-hidden">
-                      <Image
-                        src={item.image}
-                        alt={item.name}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                    <div className="flex-1">
-                      <h3 className="font-medium text-gray-900">{item.name}</h3>
-                      <p className="text-[#B88E2F] font-medium">
-                        {formatPrice.toRupiah(item.price)}
-                      </p>
-                      <div className="flex items-center gap-4 mt-2">
-                        <div className="flex items-center border rounded-lg">
-                          <button
-                            onClick={() => updateQuantity(item.id, Math.max(0, item.quantity - 1))}
-                            className="p-1 hover:bg-gray-100 rounded-l-lg transition-colors"
-                          >
-                            <Minus className="w-4 h-4 text-gray-600" />
-                          </button>
-                          <span className="w-8 text-center text-gray-700">{item.quantity}</span>
-                          <button
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="p-1 hover:bg-gray-100 rounded-r-lg transition-colors"
-                          >
-                            <Plus className="w-4 h-4 text-gray-600" />
-                          </button>
-                        </div>
+              items.map((item) => (
+                <motion.div
+                  key={item.id}
+                  initial="hidden"
+                  animate="visible"
+                  variants={itemVariants}
+                  transition={{ delay: 0.1 }}
+                  className="flex gap-4 p-4 rounded-lg bg-gray-800 shadow-md hover:bg-gray-700 transition-all"
+                >
+                  <div className="relative w-20 h-20 rounded-md overflow-hidden border-2 border-gray-700">
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="font-medium">{item.name}</h3>
+                    <p className="text-[#FFD700]">{formatPrice.toRupiah(item.price)}</p>
+                    <div className="flex items-center gap-3 mt-2">
+                      <div className="flex items-center bg-gray-700 rounded-lg overflow-hidden">
                         <button
-                          onClick={() => removeFromCart(item.id)}
-                          className="text-red-500 hover:text-red-600 p-1 rounded-full hover:bg-red-50 transition-colors"
+                          onClick={() =>
+                            updateQuantity(item.id, Math.max(0, item.quantity - 1))
+                          }
+                          className="p-1 hover:bg-gray-600 transition"
                         >
-                          <Trash2 className="w-4 h-4" />
+                          <Minus className="w-4 h-4" />
+                        </button>
+                        <span className="w-8 text-center">{item.quantity}</span>
+                        <button
+                          onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                          className="p-1 hover:bg-gray-600 transition"
+                        >
+                          <Plus className="w-4 h-4" />
                         </button>
                       </div>
+                      <button
+                        onClick={() => removeFromCart(item.id)}
+                        className="p-2 text-red-500 hover:bg-red-600/10 rounded-full transition"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
                     </div>
-                  </motion.div>
-                ))}
-              </motion.div>
+                  </div>
+                </motion.div>
+              ))
             )}
           </div>
 
           {/* Footer */}
           {items.length > 0 && (
-            <div className="border-t p-6 bg-gray-50 space-y-4">
-              <div className="flex justify-between items-center">
-                <span className="font-medium text-gray-700">Total:</span>
-                <span className="font-bold text-lg text-gray-900">
+            <div className="p-6 border-t border-gray-700">
+              <div className="flex justify-between items-center mb-4">
+                <span className="text-lg font-medium">Total:</span>
+                <span className="text-2xl font-bold text-[#FFD700]">
                   {formatPrice.toRupiah(total)}
                 </span>
               </div>
-              
               <div className="grid grid-cols-2 gap-4">
                 <button
                   onClick={handleViewCart}
-                  className="w-full px-4 py-3 border-2 border-[#B88E2F] text-[#B88E2F] rounded-lg
-                    hover:bg-[#B88E2F]/10 transition-colors duration-300
-                    focus:ring-2 focus:ring-[#B88E2F] focus:ring-offset-2"
+                  className="px-4 py-3 bg-gray-700 rounded-lg text-white hover:bg-gray-600 transition"
                 >
                   View Cart
                 </button>
                 <button
                   onClick={() => {
                     setIsCartOpen(false);
-                    router.push('/checkout');
+                    router.push("/checkout");
                   }}
-                  className="w-full bg-[#B88E2F] text-white py-3 rounded-lg
-                    hover:bg-[#A07B2A] transition-colors duration-300
-                    focus:ring-2 focus:ring-[#B88E2F] focus:ring-offset-2"
+                  className="px-4 py-3 bg-[#FFD700] rounded-lg text-gray-800 font-semibold hover:bg-yellow-400 transition"
                 >
                   Checkout
                 </button>

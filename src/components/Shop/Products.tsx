@@ -1,17 +1,17 @@
-//src/components/Shop/Products.tsx
 "use client";
 import { useEffect, useState } from "react";
-import { client } from "@/sanity/lib/sanity";
+import { client } from "@/sanity/lib/sanity"; // Importing the Sanity client
 import ProductGrid from "./ProductGrid";
-import { motion } from "framer-motion";
-import { Search, Filter, ArrowUpDown } from "lucide-react";
-import { Product } from "@/types/product";
+import { Product } from "@/types/product"; // Importing the Product type
 
-export default function Products() {
-  const [products, setProducts] = useState<Product[]>([]);
+interface ProductsProps {
+  products: Product[];
+}
+
+export default function Products({ products }: ProductsProps) {
   const [isLoading, setIsLoading] = useState(true);
-  const [isVisible, setIsVisible] = useState(false);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
+  const [filter, setFilter] = useState("");
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -57,7 +57,6 @@ export default function Products() {
             shippingCost: 0
           }
         }));
-        setProducts(transformedData);
         setFilteredProducts(transformedData);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -69,8 +68,24 @@ export default function Products() {
     fetchProducts();
   }, []);
 
+  const handleFilterChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value;
+    setFilter(value);
+    const filtered = products.filter(product => 
+      product.name.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredProducts(filtered);
+  };
+
   return (
     <div className="relative">
+      <input 
+        type="text" 
+        placeholder="Filter by name" 
+        value={filter} 
+        onChange={handleFilterChange} 
+        className="border p-2 mb-4"
+      />
       {isLoading ? (
         <div className="flex justify-center items-center min-h-[400px]">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#B88E2F]"></div>

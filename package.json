@@ -19,6 +19,7 @@
     "@sanity/client": "^6.25.0",
     "@sanity/image-url": "^1.1.0",
     "@sanity/vision": "^3.70.0",
+    "@stripe/stripe-js": "^5.5.0",
     "@vercel/analytics": "^1.4.1",
     "framer-motion": "^11.18.2",
     "groq": "^3.70.0",
@@ -33,6 +34,7 @@
     "react-is": "^19.0.0",
     "react-parallax": "^3.5.1",
     "sanity": "^3.70.0",
+    "stripe": "^17.5.0",
     "styled-components": "^6.1.14",
     "tailwind-merge": "^2.5.5",
     "three": "^0.172.0"

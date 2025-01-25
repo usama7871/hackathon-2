@@ -64,9 +64,9 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
 
   return (
     <div className="fixed inset-0 bg-black/70 backdrop-blur-md flex items-center justify-center z-50">
-      <div className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-700 rounded-lg shadow-2xl overflow-hidden w-full max-w-2xl relative border border-gray-600">
+      <div className="bg-gradient-to-br from-purple-700 via-indigo-800 to-blue-900 rounded-lg shadow-2xl overflow-hidden w-full max-w-2xl relative border border-gray-600">
         {/* Header */}
-        <div className="flex justify-between items-center p-4 border-b border-gray-600 bg-gradient-to-r from-gray-800 to-gray-700">
+        <div className="flex justify-between items-center p-4 border-b border-gray-600 bg-gradient-to-r from-indigo-700 to-blue-800 shadow-lg">
           <h2 className="text-xl font-semibold text-white tracking-wider">
             {product.name}
           </h2>
@@ -95,7 +95,7 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
             {/* Zoom Lens */}
             {lensVisible && (
               <div
-                className="absolute w-[150px] h-[150px] bg-gray-700/90 rounded-full border-2 border-gray-500 pointer-events-none overflow-hidden shadow-lg"
+                className="absolute w-[150px] h-[150px] bg-gray-700/80 rounded-full border-2 border-gray-500 pointer-events-none overflow-hidden shadow-lg"
                 style={{
                   left: `${lensPosition.x}px`,
                   top: `${lensPosition.y}px`,
@@ -125,7 +125,7 @@ export default function QuickView({ product, onClose }: QuickViewProps) {
           </div>
 
           {/* Description */}
-          <p className="text-gray-400 mb-6 leading-relaxed">
+          <p className="text-gray-300 mb-6 leading-relaxed text-opacity-80">
             {product.description}
           </p>
 

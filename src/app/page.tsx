@@ -1,8 +1,9 @@
 "use client";
 import dynamic from 'next/dynamic';
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { Loader2 } from "lucide-react";
-import { products } from '@/data/products';
+import { client } from "@/sanity/lib/sanity"; // Importing the Sanity client
+import { Product } from "@/types/product"; // Importing the Product type
 
 // Loading component
 const LoadingSpinner = () => (
@@ -53,11 +54,47 @@ const NewsletterSignup = dynamic(() => import("@/components/common/NewsletterSig
 });
 
 export default function HomePage() {
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
 
-  const handleFilterChange = (newFilteredProducts: any[]) => {
+  const handleFilterChange = (newFilteredProducts: Product[]) => {
     setFilteredProducts(newFilteredProducts);
   };
+
+  // Fetch products from Sanity
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const query = `*[_type == "product"] {
+        _id,
+        name,
+        price,
+        salePrice,
+        description,
+        "image": image.asset->url,
+        "images": images[].asset->url,
+        features {
+          highlights,
+          specifications {
+            dimensions,
+            weight,
+            material,
+            color,
+            warranty,
+            inStock,
+            stockCount
+          }
+        }
+      }`;
+
+      try {
+        const data = await client.fetch(query);
+        setFilteredProducts(data);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   return (
     <main className="w-full">
@@ -70,7 +107,7 @@ export default function HomePage() {
         <div className="container mx-auto max-w-[1440px] px-4">
           <ShopBlowHero 
             onFilterChange={handleFilterChange} 
-            totalProducts={products.length} 
+            totalProducts={filteredProducts.length} 
           />
           <div className="section-spacing" />
           <Products products={filteredProducts} />
