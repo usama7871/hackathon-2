@@ -45,13 +45,13 @@ export default function Hero() {
   return (
     <main className="relative w-full min-h-screen bg-gradient-to-b from-gray-900 to-black">
       <div className="relative max-w-[1440px] mx-auto">
-        <div className="relative w-full h-[60vh] lg:h-[80vh]">
+        <div className="relative w-full h-auto lg:h-[80vh]">
           <Image
             src={HeroImage}
             alt="Hero Image"
             fill
             priority
-            className="object-cover brightness-75"
+            className="object-cover brightness-75 w-full h-full"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-black/60 to-transparent" />
         </div>
@@ -126,7 +126,7 @@ export default function Hero() {
         {/* 3D Canvas for Floating Bubbles */}
         <div className="absolute inset-0 pointer-events-none">
           <Canvas>
-            <ambientLight intensity={0.5} />
+            <ambientLight intensity={0.9} />
             <pointLight position={[10, 10, 10]} />
             <FloatingBubbles />
             <OrbitControls enableZoom={false} />

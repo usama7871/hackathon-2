@@ -86,7 +86,7 @@ export default function Header() {
             <CiSearch />
           </button>
           <Link
-            href="/compare"
+            href="/wishlist"
             className="relative text-gray-200 text-2xl hover:text-[#ff1b1b] transition-transform duration-200 hover:scale-110"
             aria-label="Wishlist"
           >
