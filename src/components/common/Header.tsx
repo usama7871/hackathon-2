@@ -21,6 +21,7 @@ const navLinks = [
   { href: "/contact", label: "Contact" },
   { href: "/sign-in", label: "Sign In" },
   { href: "/sign-up", label: "Sign Up" },
+  { href: "/admin", label: "Custom Admin Dashboard" }
 ];
 
 export default function Header() {
