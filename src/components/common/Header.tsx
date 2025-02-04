@@ -1,10 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Logo from "@/Pictures/Logo.png";
 import Link from "next/link";
 import { MdPersonOutline } from "react-icons/md";
-import { useUser } from "@clerk/nextjs";
+import { useUser, useClerk } from "@clerk/nextjs";
 import { CiSearch } from "react-icons/ci";
 import { GoHeart } from "react-icons/go";
 import { AiOutlineShoppingCart, AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
@@ -12,7 +12,8 @@ import { useCart } from "@/context/CartContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { useCompare } from "@/context/CompareContext";
 import { useWishlist } from "@/context/WishlistContext";
-import { Scale } from "lucide-react"; // Updated import for Scale icon
+import { Scale } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -27,9 +28,36 @@ const navLinks = [
 export default function Header() {
   const { setIsCartOpen, totalItems } = useCart();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
   const { items: compareItems } = useCompare();
   const { wishlistItems } = useWishlist();
   const { user } = useUser();
+  const { signOut } = useClerk();
+  const router = useRouter();
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsProfileDropdownOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.push("/");
+    setIsProfileDropdownOpen(false);
+  };
+
+  const handleViewProfile = () => {
+    router.push("/admin/users");
+    setIsProfileDropdownOpen(false);
+  };
 
   const handleCartClick = () => {
     setIsCartOpen(true);
@@ -64,28 +92,67 @@ export default function Header() {
 
         {/* Icons and Menu */}
         <div className="flex items-center space-x-6">
-          <div className="relative">
+          {/* Profile Dropdown */}
+          <div className="relative" ref={dropdownRef}>
             <button
               className="text-gray-200 text-2xl hover:text-[#2cffce] transition-transform duration-200 hover:scale-110"
               aria-label="User Account"
+              onClick={() => setIsProfileDropdownOpen(!isProfileDropdownOpen)}
             >
               {user ? (
-                <img
+                <Image
                   src={user.imageUrl}
                   alt="User Profile"
-                  className="w-8 h-8 rounded-full border border-cyan-300"
+                  width={32}
+                  height={32}
+                  className="rounded-full border border-cyan-300"
                 />
               ) : (
                 <MdPersonOutline />
               )}
             </button>
+
+            {/* Profile Dropdown Menu */}
+            <AnimatePresence>
+              {isProfileDropdownOpen && user && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50"
+                >
+                  <div className="px-4 py-2 border-b">
+                    <p className="text-sm font-medium text-gray-900">{user.fullName}</p>
+                    <p className="text-sm text-gray-500 truncate">
+                      {user.primaryEmailAddress?.emailAddress}
+                    </p>
+                  </div>
+                  <button
+                    onClick={handleViewProfile}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors"
+                  >
+                    View Profile
+                  </button>
+                  <button
+                    onClick={handleSignOut}
+                    className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100 transition-colors"
+                  >
+                    Sign Out
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
+
+          {/* Search Icon */}
           <button
             className="text-gray-200 text-2xl hover:text-[#24bde0] transition-transform duration-200 hover:scale-110"
             aria-label="Search"
           >
             <CiSearch />
           </button>
+
+          {/* Wishlist Icon */}
           <Link
             href="/wishlist"
             className="relative text-gray-200 text-2xl hover:text-[#ff1b1b] transition-transform duration-200 hover:scale-110"
@@ -98,6 +165,8 @@ export default function Header() {
               </span>
             )}
           </Link>
+
+          {/* Compare Icon */}
           <Link
             href="/compare"
             className="relative text-white text-2xl hover:text-[#B88E2F] transition-transform duration-200 hover:scale-110"
@@ -110,6 +179,8 @@ export default function Header() {
               </span>
             )}
           </Link>
+
+          {/* Cart Icon */}
           <button
             onClick={handleCartClick}
             className="relative hover:scale-110 transition-transform duration-200"
@@ -122,7 +193,12 @@ export default function Header() {
               </span>
             )}
           </button>
-          <button className="lg:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+
+          {/* Mobile Menu Button */}
+          <button 
+            className="lg:hidden"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
             {isMobileMenuOpen ? (
               <AiOutlineClose className="w-6 h-6 text-gray-200" />
             ) : (

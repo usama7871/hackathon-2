@@ -1,6 +1,7 @@
 "use client";
 import React from 'react';
 import { useUser } from '@clerk/nextjs';
+import Link from 'next/link';
 
 const AdminDashboard = () => {
   const { user } = useUser();
@@ -12,7 +13,14 @@ const AdminDashboard = () => {
         <div className="bg-white p-4 rounded-lg shadow">
           <h2 className="text-2xl">Welcome, {user.firstName}!</h2>
           <p className="mt-2 text-gray-700">Here you can track your account, orders, and status.</p>
-          {/* Additional functionality can be added here */}
+          <div className="mt-4">
+            <h3 className="text-xl font-semibold">Quick Links</h3>
+            <ul className="list-disc list-inside">
+              <li><Link href="/admin/users" className="text-blue-500">User Management</Link></li>
+              <li><Link href="/admin/orders" className="text-blue-500">Order Management</Link></li>
+              <li><Link href="/admin/settings" className="text-blue-500">Account Settings</Link></li>
+            </ul>
+          </div>
         </div>
       ) : (
         <p className="text-red-500">Please sign in to view your dashboard.</p>

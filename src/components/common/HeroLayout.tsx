@@ -12,11 +12,11 @@ interface HeroLayoutProps {
   breadcrumbs: { label: string; isActive?: boolean }[];
 }
 
-export default function HeroLayout({ title, backgroundImage, breadcrumbs }: HeroLayoutProps) {
+export default function HeroLayout({ title, backgroundImage, breadcrumbs }: HeroLayoutProps): JSX.Element {
   return (
-    <div className="relative h-[600px] overflow-hidden">
+    <div className="relative h-[600px] overflow-hidden md:h-[80vh]">
       {/* Parallax Background */}
-      <Parallax pages={1.5} className="absolute inset-0">
+      <Parallax pages={1.5} className="absolute inset-0" style={{ height: '100vh' }}>
         <ParallaxLayer
           offset={0}
           speed={0.3}

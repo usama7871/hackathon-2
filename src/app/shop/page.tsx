@@ -3,7 +3,6 @@ import dynamic from 'next/dynamic';
 import { Suspense, useState } from 'react';
 import { Loader2 } from "lucide-react";
 import { products } from '@/data/products';
-// import ShopIcons from '@/components/ShopIcons';
 
 // Loading component
 const LoadingSpinner = () => (

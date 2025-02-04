@@ -1,35 +1,31 @@
-//src/components/Home/Subhero.tsx
 "use client";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, FC } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
-import Dining from '@/Pictures/dining.png';
-import Living from '@/Pictures/living.png';
-import Bedroom from '@/Pictures/bedroom.png';
+import Dining from '../../Pictures/dining.png';
+import Living from '../../Pictures/living.png';
+import Bedroom from '../../Pictures/bedroom.png';
 
 const categories = [
   { 
     name: 'Dining Room',
     image: Dining,
     delay: 0.2,
-    // description: 'Elegant dining sets for memorable meals'
   },
   { 
     name: 'Living Room',
     image: Living,
     delay: 0.4,
-    // description: 'Comfortable spaces for family moments'
   },
   { 
     name: 'Bedroom',
     image: Bedroom,
     delay: 0.6,
-    // description: 'Peaceful retreats for perfect rest'
   }
 ];
 
-const SubHero = () => {
-  const [isMounted, setIsMounted] = useState(false);
+const SubHero: FC = () => {
+  const [isMounted, setIsMounted] = useState<boolean>(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -77,10 +73,13 @@ const SubHero = () => {
           >
             <div className="overflow-hidden rounded-2xl shadow-lg bg-white h-full flex flex-col">
               <div className="relative flex-1">
-                <Image
+                <Image 
                   src={category.image}
                   alt={category.name}
                   fill
+                  onError={(e) => {
+                    e.currentTarget.src = '/path/to/fallback/image.png'; // Fallback image
+                  }}
                   className="object-cover transition-transform duration-500 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -109,7 +108,7 @@ const SubHero = () => {
                 opacity-0 group-hover:opacity-100 transition-all duration-300
                 hover:bg-[#B88E2F] hover:text-white transform hover:scale-105"
             >
-              
+              View More
             </motion.button>
           </motion.div>
         ))}

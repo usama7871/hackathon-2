@@ -10,10 +10,10 @@ export default function ContactHero() {
         transition={{ duration: 0.6 }}
         className="text-center"
       >
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">          
           Contact Us
         </h1>
-        <div className="flex flex-col items-center justify-center space-y-4">
+        <div className="flex flex-col items-center justify-center space-y-4 mb-8">
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -33,6 +33,12 @@ export default function ContactHero() {
             <span>/</span>
             <span className="text-[#B88E2F]">Contact</span>
           </motion.div>
+          <motion.button
+            className="px-6 py-3 bg-[#B88E2F] text-white rounded-lg hover:bg-[#A07B2A] transition-colors"
+            onClick={() => window.scrollTo({ top: document.getElementById('contact-form')?.offsetTop, behavior: 'smooth' })}
+          >
+            Get in Touch
+          </motion.button>
         </div>
       </motion.div>
 
@@ -47,4 +53,4 @@ export default function ContactHero() {
       </div>
     </section>
   );
-} 
+}

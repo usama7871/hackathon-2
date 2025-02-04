@@ -64,22 +64,38 @@ funiro/
 ├── src/
 │   ├── app/ # App router pages
 │   │   ├── about/ # About page
+│   │   │   └── page.tsx # About page component
 │   │   ├── blog/ # Blog pages
 │   │   │   ├── [slug]/ # Dynamic blog post pages
+│   │   │   │   └── page.tsx # Blog post component
 │   │   │   ├── category/ # Blog category pages
+│   │   │   │   ├── [category]/ # Dynamic category pages
+│   │   │   │   │   └── page.tsx # Category page component
 │   │   │   └── tag/ # Blog tag pages
+│   │   │       ├── [tag]/ # Dynamic tag pages
+│   │   │       │   └── page.tsx # Tag page component
 │   │   ├── cart/ # Cart page
+│   │   │   └── page.tsx # Cart page component
 │   │   ├── checkout/ # Checkout pages
+│   │   │   ├── page.tsx # Checkout page component
 │   │   │   └── success/ # Checkout success page
+│   │   │       └── page.tsx # Success page component
 │   │   ├── compare/ # Compare page
+│   │   │   └── page.tsx # Compare page component
 │   │   ├── contact/ # Contact page
+│   │   │   └── page.tsx # Contact page component
 │   │   ├── shop/ # Shop pages
-│   │   │   └── [productId]/ # Dynamic product detail pages
+│   │   │   ├── [productId]/ # Dynamic product detail pages
+│   │   │   │   └── page.tsx # Product detail component
+│   │   │   └── page.tsx # Shop page component
 │   │   ├── wishlist/ # Wishlist page
+│   │   │   └── page.tsx # Wishlist page component
 │   │   ├── layout.tsx # App layout
 │   │   ├── page.tsx # Main entry point
 │   │   └── globals.css # Global styles
 │   ├── components/ # Reusable components
+│   │   ├── AdminDashboard.tsx # Admin dashboard component
+│   │   ├── Auth/ # Authentication components
 │   │   ├── Blog/ # Blog components
 │   │   ├── Cart/ # Cart components
 │   │   ├── Checkout/ # Checkout components
@@ -87,23 +103,21 @@ funiro/
 │   │   ├── Home/ # Home page components
 │   │   ├── Shop/ # Shop components
 │   │   ├── common/ # Common components
-│   │   ├── Header.tsx # Header component
-│   │   ├── Footer.tsx # Footer component
-│   │   ├── ProductCard.tsx # Product card component
-│   │   ├── ProductGrid.tsx # Product grid component
-│   │   ├── ShopBlowHero.tsx # Shop filtering component
-│   │   └── CartSidebar.tsx # Cart sidebar component
+│   │   └── ... # Other components
 │   ├── context/ # Context providers
 │   │   ├── CartContext.tsx # Cart context
 │   │   ├── WishlistContext.tsx # Wishlist context
 │   │   └── CompareContext.tsx # Compare context
 │   ├── data/ # Static data
+│   │   ├── blogContent.ts # Blog content data
 │   │   └── products.ts # Product data
 │   ├── types/ # TypeScript types
 │   │   ├── product.ts # Product types
-│   │   └── blog.ts # Blog types
+│   │   ├── blog.ts # Blog types
+│   │   └── cart.ts # Cart types
 │   └── utils/ # Utility functions
-│       └── formatPrice.ts # Price formatting functions
+│       ├── formatPrice.ts # Price formatting functions
+│       └── stripe.js # Stripe utility functions
 ├── public/ # Static assets
 │   ├── Logo.png # Logo image
 │   └── Pictures/ # Additional images
@@ -111,6 +125,8 @@ funiro/
 ├── next.config.mjs # Next.js configuration
 ├── package.json # Project metadata and dependencies
 └── .eslintrc.json # ESLint configuration
+
+
 ```
 
 ---

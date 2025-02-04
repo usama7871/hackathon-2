@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Send } from "lucide-react";
 
@@ -30,7 +31,16 @@ export default function ContactForm() {
     }));
   };
 
+  const [errors, setErrors] = useState<{ email?: string }>({});
+  
   const handleSubmit = async (e: React.FormEvent) => {
+    setErrors({});
+    
+    // Validate email format
+    if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      setErrors((prev) => ({ ...prev, email: "Invalid email format" }));
+      return;
+    }
     e.preventDefault();
     setIsSubmitting(true);
 
@@ -78,7 +88,9 @@ export default function ContactForm() {
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
           >
-            <input
+            <label htmlFor="email" className="sr-only">Email</label>
+        <input
+          id="email"
               type="text"
               name="name"
               value={formData.name}
@@ -97,7 +109,9 @@ export default function ContactForm() {
             viewport={{ once: true }}
             transition={{ delay: 0.4 }}
           >
-            <input
+            <label htmlFor="subject" className="sr-only">Subject</label>
+        <input
+          id="subject"
               type="email"
               name="email"
               value={formData.email}
@@ -136,7 +150,9 @@ export default function ContactForm() {
           viewport={{ once: true }}
           transition={{ delay: 0.6 }}
         >
-          <textarea
+          <label htmlFor="message" className="sr-only">Message</label>
+        <textarea
+          id="message"
             name="message"
             value={formData.message}
             onChange={handleChange}
@@ -164,6 +180,9 @@ export default function ContactForm() {
             className="px-8 py-3 bg-[#B88E2F] text-white rounded-lg flex items-center gap-2
               hover:bg-[#A07B2A] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
+            {errors.email && (
+              <p className="text-red-500 text-sm">{errors.email}</p>
+            )}
             {isSubmitting ? (
               <>
                 <motion.div

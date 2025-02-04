@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
-import InnerPeace from "@/Pictures/inner.png";
-import SideInner from "@/Pictures/Sideinner.png";
+import InnerPeace from "../../Pictures/inner.png";
+import SideInner from "../../Pictures/Sideinner.png";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
@@ -67,6 +67,9 @@ export default function SlideSection() {
                   alt="Inner Peace Room"
                   width={400}
                   height={400}
+                  onError={(e) => {
+                    e.currentTarget.src = '/path/to/fallback/image.png'; // Fallback image
+                  }}
                   className="object-cover rounded-xl transition-transform 
                     duration-500 group-hover:scale-110"
                 />
@@ -86,6 +89,9 @@ export default function SlideSection() {
                   alt="Side Inner Room"
                   width={400}
                   height={400}
+                  onError={(e) => {
+                    e.currentTarget.src = '/path/to/fallback/image.png'; // Fallback image
+                  }}
                   className="object-cover rounded-xl transition-transform 
                     duration-500 group-hover:scale-110"
                 />

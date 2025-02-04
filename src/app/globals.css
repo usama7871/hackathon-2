@@ -1,4 +1,5 @@
-@tailwind base;
+@tailwind base;  
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 @tailwind components;
 @tailwind utilities;
 
@@ -7,6 +8,7 @@
   --primary: #B88E2F;
   --primary-dark: #A07B2A;
   --text-primary: #FFFFFF; /* Updated for better contrast */
+  --text-secondary: #B0B0B0; /* Added for secondary text color */
   --background: #1a1a2e; /* Dark background for galactic theme */
   --accent: #B88E2F;
   --header-gradient-start: #3b82f6; /* Tailwind blue */
@@ -38,7 +40,8 @@
   .button-glow:hover {
     box-shadow: 0 0 20px #49C6E5, 0 0 30px #49C6E5;
   }
-  footer {
+  footer {  
+    color: var(--text-secondary); /* Updated footer text color */
     background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(73, 198, 229, 0.1));
   }
   .hero-background {
