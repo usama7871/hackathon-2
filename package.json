@@ -13,6 +13,7 @@
     "@clerk/nextjs": "^6.10.1",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
+    "@heroicons/react": "^2.2.0",
     "@react-spring/parallax": "^9.7.5",
     "@react-three/drei": "^9.121.3",
     "@react-three/fiber": "^8.17.12",

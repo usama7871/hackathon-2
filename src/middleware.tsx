@@ -1,11 +1,28 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-const isProtectedRoute = createRouteMatcher(["/dashboard(.*)"]);
+// Define routes that don't require authentication
+const publicRoutes = [
+  "/",
+  "/sign-in(.*)",
+  "/sign-up(.*)",
+  "/about",
+  "/contact",
+  "/shop",  // Making main shop page public
+  "/blog",  // Making main blog page public
+];
 
 export default clerkMiddleware(async (auth, req) => {
-  if (isProtectedRoute(req)) await auth.protect();
+  // If the route is public, allow access
+  if (publicRoutes.some(pattern => createRouteMatcher(pattern)(req))) {
+    return;
+  }
+
+  // For all other routes, protect with authentication
+  await auth.protect();
 });
 
 export const config = {
-  matcher: ["/((?!.*\\..*|_next).*)", "/"],
+  matcher: [
+    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+  ],
 };

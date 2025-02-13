@@ -4,7 +4,7 @@ import HeroLayout from "../common/HeroLayout";
 export default function BlogHero() {
   return (
     <HeroLayout
-      title="Our Blog"
+      title="Latest Articles"
       backgroundImage="/18.jpg"
       breadcrumbs={[
         { label: "Home" },
@@ -12,4 +12,4 @@ export default function BlogHero() {
       ]}
     />
   );
-} 
+}

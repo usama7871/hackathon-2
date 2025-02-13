@@ -4,8 +4,8 @@ import HeroLayout from "../common/HeroLayout";
 export default function ShopHero() {
   return (
     <HeroLayout
-      title="Shop"
-      backgroundImage="/18.jpg"
+      title="Our Collection"
+      backgroundImage="/16.jpg"
       breadcrumbs={[
         { label: "Home" },
         { label: "Shop", isActive: true }
