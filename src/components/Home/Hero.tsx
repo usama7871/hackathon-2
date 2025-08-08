@@ -1,4 +1,4 @@
-"use client";
+"use-client";
 import Image from "next/image";
 import HeroImage from "../../Pictures/Hero.png";
 import { Canvas } from "@react-three/fiber";
@@ -6,7 +6,12 @@ import { OrbitControls, Sphere } from "@react-three/drei";
 import Link from "next/link";
 
 const FloatingBubbles = () => {
-  const bubbleConfigs = [
+  const bubbleConfigs: {
+    position: [number, number, number];
+    scale: number;
+    color: string;
+    opacity: number;
+  }[] = [
     { position: [-2, 1, -3], scale: 2.5, color: "#ff6f00ff", opacity: 0.5 },
     { position: [1.5, 2, -2], scale: 1, color: "#ffd700", opacity: 0.7 },
     { position: [0, -1, -4], scale: 1.5, color: "#00ff04ff", opacity: 0.8 },
