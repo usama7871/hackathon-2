@@ -9,8 +9,12 @@ import * as THREE from 'three';
 // Note: For full 3D effects, install these packages:
 // npm install @react-three/fiber @react-three/drei three
 // Then uncomment the imports below and remove the fallback components
+interface GlitchTextProps {
+  children: React.ReactNode;
+  className?: string;
+}
 
-const GlitchText = ({ children, className }) => {
+const GlitchText: React.FC<GlitchTextProps> = ({ children, className }) => {
   return (
     <div className={`relative ${className}`}>
       <span className="relative z-10">{children}</span>
@@ -36,7 +40,14 @@ const GlitchText = ({ children, className }) => {
   );
 };
 
-const FloatingOrb = ({ delay = 0, size = 'w-20 h-20', position = 'top-1/4 left-1/4', gradient = 'from-cyan-400 to-blue-500' }) => {
+interface FloatingOrbProps {
+  delay?: number;
+  size?: string;
+  position?: string;
+  gradient?: string;
+}
+
+const FloatingOrb: React.FC<FloatingOrbProps> = ({ delay = 0, size = 'w-20 h-20', position = 'top-1/4 left-1/4', gradient = 'from-cyan-400 to-blue-500' }) => {
   return (
     <div 
       className={`animate-float absolute ${position} ${size} rounded-full bg-gradient-to-r ${gradient} opacity-30 blur-sm`}
@@ -45,8 +56,8 @@ const FloatingOrb = ({ delay = 0, size = 'w-20 h-20', position = 'top-1/4 left-1
   );
 };
 
-const MatrixRain = () => {
-  const canvasRef = useRef(null);
+const MatrixRain: React.FC = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -62,15 +73,15 @@ const MatrixRain = () => {
     const drops = Array(Math.floor(columns)).fill(1);
 
     const draw = () => {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx!.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx!.fillRect(0, 0, canvas.width, canvas.height);
 
-      ctx.fillStyle = '#00ff41';
-      ctx.font = `${fontSize}px monospace`;
+      ctx!.fillStyle = '#00ff41';
+      ctx!.font = `${fontSize}px monospace`;
 
       for (let i = 0; i < drops.length; i++) {
         const text = characters[Math.floor(Math.random() * characters.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+        ctx!.fillText(text, i * fontSize, drops[i] * fontSize);
 
         if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
           drops[i] = 0;
